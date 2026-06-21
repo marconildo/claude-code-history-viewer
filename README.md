@@ -63,20 +63,24 @@ See [Server Mode](#server-mode-webui) for Docker, VPS, and systemd setup.
 
 AI coding assistants generate thousands of conversation messages, but none of them provide a way to look back at your history across tools. CCHV solves this.
 
-**Ten assistants. One viewer.** Switch between Claude Code, Gemini CLI, Antigravity, Codex CLI, Cline, Cursor, Aider, OpenCode, ForgeCode, and CodeBuddy Code sessions seamlessly — compare token usage, search across providers, and analyze your workflow in a single interface.
+**Fourteen assistants. One viewer.** Switch between Claude Code, GitHub Copilot, Gemini CLI, Antigravity, Codex CLI, Cline, Cursor, Cursor Agent, Aider, OpenCode, ForgeCode, CodeBuddy Code, Kimi, and Kiro sessions seamlessly — compare token usage, search across providers, and analyze your workflow in a single interface.
 
 | Provider | Data Location | What You Get |
 |----------|--------------|--------------|
 | **Claude Code** | `~/.claude/projects/` | Full conversation history, tool use, thinking, costs |
+| **GitHub Copilot** | `~/.copilot/session-state/` (CLI & Desktop), VS Code `workspaceStorage/.../chatSessions/` | Copilot CLI, Copilot Desktop, and VS Code Copilot Chat history (read-only, WSL-aware) |
 | **Gemini CLI** | `~/.gemini/history/` | Conversation history with tool calls |
 | **Antigravity** | `~/.gemini/antigravity/` | Conversation state under `brain/` plus token monitor data under `.token-monitor/rpc-cache/v1/` |
 | **Codex CLI** | `~/.codex/sessions/` | Session rollouts with agent responses |
 | **Cline** | `~/.cline/tasks/` | Task-based conversation history |
 | **Cursor** | `~/.cursor/` | Composer and chat conversations |
+| **Cursor Agent** | `~/.cursor/projects/.../agent-transcripts/` | Agent transcripts, distinct from the Cursor IDE source |
 | **Aider** | Project directories | Chat history and edit logs |
 | **OpenCode** | `~/.local/share/opencode/` | Conversation sessions and tool results |
 | **ForgeCode** | `~/.forge/.forge.db` | Conversation history from SQLite database |
 | **CodeBuddy Code** | `~/.codebuddy/projects/` | Conversation history with tool calls (Claude Code fork format) |
+| **Kimi** | `~/.kimi/` | Session history with `kimi -r` resume |
+| **Kiro** | `kiro-cli/data.sqlite3` | SQLite-backed conversation history |
 
 No vendor lock-in. No cloud dependency. Your local conversation files, beautifully rendered.
 
@@ -102,7 +106,7 @@ Antigravity note: the viewer resolves the Antigravity root as `~/.gemini/antigra
 
 | Feature | Description |
 |---------|-------------|
-| **Multi-Provider Support** | Unified viewer for **Claude Code**, **Gemini CLI**, **Antigravity**, **Codex CLI**, **Cline**, **Cursor**, **Aider**, **OpenCode**, **ForgeCode**, and **CodeBuddy Code** — filter by provider, compare across tools |
+| **Multi-Provider Support** | Unified viewer for 14 AI coding assistants — **Claude Code**, **GitHub Copilot**, **Gemini CLI**, **Codex CLI**, **Cursor** / **Cursor Agent**, **Cline**, **Aider**, **OpenCode**, **ForgeCode**, **CodeBuddy Code**, **Kimi**, **Kiro**, and **Antigravity** — filter by provider, compare across tools |
 | **Conversation Browser** | Navigate conversations by project/session with worktree grouping |
 | **Global Search** | Search across all conversations from all providers instantly |
 | **Analytics Dashboard** | Dual-mode token stats (billing vs conversation), cost breakdown, and provider distribution charts |
@@ -116,6 +120,16 @@ Antigravity note: the viewer resolves the Antigravity root as `~/.gemini/antigra
 | Provider | Notes |
 |---------|-------|
 | **Antigravity** | Loaded through the standard provider pipeline. Sessions come from the token monitor cache and participate in project/session views, token stats, analytics, and global search without a separate UI mode. |
+
+### New in v1.16.0
+
+| Feature | Description |
+|---------|-------------|
+| **GitHub Copilot Provider** | Read-only history from **Copilot CLI** (`~/.copilot/session-state`), **Copilot Desktop**, and **VS Code Copilot Chat** (`workspaceStorage/.../chatSessions`) — WSL-aware, with global search |
+| **Headless Session Export** | New `--export <session-id\|/abs/path.jsonl> [--format html\|json] [--output <file>]` flag renders an HTML or JSON report and exits without launching the GUI — for SSH/CI use |
+| **One-Click Full Backup** | An Archive Manager "Full Backup" card copies every session from all Claude Code projects into archives in one action, so history survives Claude Code's automatic cleanup |
+| **Skill & Subagent Analytics** | New "Most Used Skills" / "Most Used Subagents" sections break Claude `Skill` and `Agent` calls out by name, at project and global scope |
+| **Fixes** | The font-size setting now applies to the whole app (message viewer, analytics, session board, settings), not just the left panel; session delete falls back to permanent deletion when the system trash is unavailable (e.g. Windows Recycle Bin disabled) |
 
 ### New in v1.15.0
 
